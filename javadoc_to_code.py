@@ -62,7 +62,7 @@ for name in files:
  */
 {class_title} {{
 """
-class_header = re.sub(r'\s+', ' ', class_header)
+    class_header = re.sub(r'\s+', ' ', class_header)
 
     for title in soup.find_all('h3'):
         if 'Constructor Detail' in title.contents:
