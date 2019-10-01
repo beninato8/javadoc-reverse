@@ -1,26 +1,11 @@
 from bs4 import BeautifulSoup
 import bs4
-from selenium import webdriver
 import re
 import os
 from os import listdir
 from os.path import isfile, join
 
 nl = '\n'
-
-dl = False
-if dl:
-    chromedriver = '/usr/local/bin/chromedriver'
-    options = webdriver.ChromeOptions()
-    # options.add_argument('headless') #this makes it not have a window appear
-    options.add_argument('window-size=1200x600')
-    options.add_argument('chromever="73.0.3683.68"')
-    browser = webdriver.Chrome(chromedriver, options=options)
-
-    url = ''
-    browser.get(url)
-    html = browser.page_source
-    browser.quit()
 
 def nest_contents(c):
     l = ''
