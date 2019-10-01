@@ -11,7 +11,7 @@
  - `$ git clone https://github.com/beninato8/javadoc-to-code`
  - Tested with Python 3.7.3
  - I used `bs4==0.0.1` to parse the html
-  - To install: `python3 -m pip install bs4==0.0.1`
+   - To install: `python3 -m pip install bs4==0.0.1`
 
 ## Running
 
