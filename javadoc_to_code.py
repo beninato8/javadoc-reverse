@@ -17,8 +17,7 @@ if dl:
     options.add_argument('chromever="73.0.3683.68"')
     browser = webdriver.Chrome(chromedriver, options=options)
 
-    url = 'http://cs300-www.cs.wisc.edu/wp/wp-content/uploads/2019/09/p4javadocs/BankAccount.html'
-
+    url = ''
     browser.get(url)
     html = browser.page_source
     browser.quit()
