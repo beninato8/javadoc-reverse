@@ -18,6 +18,21 @@ def nest_contents(c):
             l += nest_contents(x.contents)
     return l
 
+returns = {'String':'\"\"',
+           'boolean':'false',
+           'int':'0;',
+           'float':'0.0',
+           'char':'\'\'',
+           'double':'0.0'
+           }
+def return_type(var):
+    if var == 'void':
+        return ''
+    if var in returns:
+        return f'    return {returns[var]};'
+    if '[]' in var:
+        return f'    return new {var} {{}};'
+    return f'    return new {var}();'
 
 def java_sub(s):
     s = re.sub('\s+', ' ', s)
@@ -62,14 +77,13 @@ for name in files:
  */
 {class_title} {{
 """
-    class_header = re.sub(r'\s+', ' ', class_header)
 
     for title in soup.find_all('h3'):
         if 'Constructor Detail' in title.contents:
             # print(title.parent)
             method = title.parent.find('pre')
             constructor = re.sub(' +', ' ', method.contents[0].replace('\n', ''))
-            constructor = re.sub('java\.[a-z]+\.', '', constructor)
+            constructor = java_sub(constructor).replace('"\xc2\xa0"', ' ')
             description  = title.parent.find('div', {'class':'block'})
             description = re.sub('\n *', ' ', ''.join(nest_contents(description)))
 
@@ -94,7 +108,9 @@ for name in files:
  */
 {constructor} {{
 
-}}"""
+}}"""       
+            txt = re.sub(r'[ ]+\* \n', '', txt)
+            txt = txt.replace('/**\n */\n', '')
             constructors.append(txt)
         if 'Method Detail' in title.contents:
             for i, method in enumerate(title.parent.find_all('li', {'class':'blockList'})):
@@ -120,17 +136,20 @@ for name in files:
                 # print(ats)
                 # print(header)
                 # print(desc)
+                return_statement = return_type(header.split(r'(')[0].split(' ')[-2])
+                body = f'{header} {{\n{return_statement}\n}}'
+                # print(body)
+                # exit()
                 txt = f"""/**
  * {desc}
  * {f"{nl} * ".join(ats)}
  */
-{header} {{
-
-}}"""
+{body}"""
+                txt = re.sub(r'[ ]+\* \n', '', txt)
+                txt = txt.replace('/**\n */\n', '')
                 methods.append(txt)
                 # exit()
     # print(soup.prettify())
-
     out_name = name.replace('.html', '')
     os.makedirs(os.path.dirname(f'{path_out}{out_name}.java'), exist_ok=True)
     with open(f'{path_out}{out_name}.java', 'w+') as f:
