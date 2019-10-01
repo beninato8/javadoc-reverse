@@ -23,9 +23,8 @@ def java_sub(s):
     s = re.sub('\s+', ' ', s)
     new_s = ''
     for x in re.split('\s', s):
-        if re.match('java\.([^\.]+\.?)+', x):
-            x = x.split('.')
-            x = x[-1]
+        if re.search('java\.([^\.]+\.?)+', x):
+            x = re.sub(r'java\.([^\.]+\.)+([^\.\n]+)',r'\2', x)
         new_s += x + ' '
     return new_s[:-1]
 
