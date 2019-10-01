@@ -73,7 +73,7 @@ for name in files:
             description  = title.parent.find('div', {'class':'block'})
             description = re.sub('\n *', ' ', ''.join(nest_contents(description)))
 
-            print(constructor)
+            # print(constructor)
             ats = []
 
             if title.parent.find('dl'):
