@@ -3,7 +3,7 @@
 ## Takes javadocs (.html) files and creates method headers with javadoc comments
 
  - None of the tools I found online seemed to work for this task, so I wrote my own
- - The code probably has many issues (besides (a lack) of style)
+ - The code probably has many issues (in addition to a lack of style)
  - I wrote this in a few hours and have not done any extensive testing. It is very likely to not work on other javadocs.
 
 ## Installation
