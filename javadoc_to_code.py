@@ -20,7 +20,7 @@ def nest_contents(c):
 
 returns = {'String':'\"\"',
            'boolean':'false',
-           'int':'0;',
+           'int':'0',
            'float':'0.0',
            'char':'\'\'',
            'double':'0.0'
