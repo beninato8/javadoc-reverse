@@ -57,6 +57,7 @@ if not files:
     exit()
 
 for name in files:
+    print(name)
 # name = 'BankAccount'
     path_out = 'jdoc_out/'
     with open(f'{path_in}{name}', 'r') as f:
@@ -69,7 +70,7 @@ for name in files:
 
 
     for desc in soup.find_all('div', {'class':'description'}):
-        class_title = nest_contents(desc.find('pre')).replace('\n', ' ').replace(' extends java.lang.Object', '')
+        class_title = nest_contents(desc.find('pre')).replace('\n', ' ').replace(' extends java.lang.Object', '').replace(' extends java.lang.Enum', '')
         class_desc = nest_contents(desc.find('div'))
 
     class_header = f"""/**
@@ -122,17 +123,21 @@ for name in files:
 
                 # print(method.prettify())
                 # exit()
-                at = [x for x in method.find('dl').children if x != '\n']
+                print(header)
                 ats = []
-                current_key = ''
-                for child in at:
-                    if child.name == 'dt':
-                        current_key = child.contents[0]['class'][0].replace('Label', '')
-                    else:
-                        if current_key == 'return':
-                            ats.append(f'@{current_key} {re.sub(f"{nl} +", " ", child.contents[0])}')
+                try:
+                    at = [x for x in method.find('dl').children if x != '\n']
+                    current_key = ''
+                    for child in at:
+                        if child.name == 'dt':
+                            current_key = child.contents[0]['class'][0].replace('Label', '')
                         else:
-                            ats.append(f'@{current_key} {child.contents[0].contents[0]}{re.sub(f"{nl} +", " ", child.contents[1])}')
+                            if current_key == 'return':
+                                ats.append(f'@{current_key} {re.sub(f"{nl} +", " ", child.contents[0])}')
+                            else:
+                                ats.append(f'@{current_key} {child.contents[0].contents[0]}{re.sub(f"{nl} +", " ", child.contents[1])}')
+                except Exception as e:
+                    pass
                 # print(ats)
                 # print(header)
                 # print(desc)
